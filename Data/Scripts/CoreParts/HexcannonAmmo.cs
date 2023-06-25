@@ -99,7 +99,7 @@ namespace Scripts
             Pattern = new PatternDef
             {
                 Patterns = new[] { // If enabled, set of multiple ammos to fire in order instead of the main ammo.
-                  "SubterraneanSunStage2", "SubterraneanSunStage2EWARTimespawn",
+                  "SubterraneanSunStage2",
                 },
                 Mode = Fragment, // Select when to activate this pattern, options: Never, Weapon, Fragment, Both 
                 TriggerChance = 1f, // This is %
@@ -107,7 +107,7 @@ namespace Scripts
                 RandomMin = 1,
                 RandomMax = 1,
                 SkipParent = false, // Skip the Ammo itself, in the list
-                PatternSteps = 3, // Number of Ammos activated per round, will progress in order and loop. Ignored if Random = true.
+                PatternSteps = 1, // Number of Ammos activated per round, will progress in order and loop. Ignored if Random = true.
             },
             DamageScales = new DamageScaleDef
             {
@@ -446,7 +446,7 @@ namespace Scripts
             HybridRound = true, // Use both a physical ammo magazine and energy per shot.
             EnergyCost = 0.1f, // Scaler for energy per shot (EnergyCost * BaseDamage * (RateOfFire / 3600) * BarrelsPerShot * TrajectilesPerBarrel). Uses EffectStrength instead of BaseDamage if EWAR.
             BaseDamage = 1f, // Direct damage; one steel plate is worth 100.
-            Mass = 0f, // In kilograms; how much force the impact will apply to the target.
+            Mass = 500f, // In kilograms; how much force the impact will apply to the target.
             Health = 50000, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 0f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself. 
@@ -471,7 +471,7 @@ namespace Scripts
             Fragment = new FragmentDef // Formerly known as Shrapnel. Spawns specified ammo fragments on projectile death (via hit or detonation).
             {
                 AmmoRound = "SubterraneanSunStage2SuccParticleInvis", // AmmoRound field of the ammo to spawn.
-                Fragments = 10, // Number of projectiles to spawn.
+                Fragments = 1, // Number of projectiles to spawn.
                 Degrees = 360, // Cone in which to randomize direction of spawned projectiles.
                 Reverse = false, // Spawn projectiles backward instead of forward.
                 DropVelocity = true, // fragments will not inherit velocity from parent.
@@ -483,11 +483,11 @@ namespace Scripts
                 TimedSpawns = new TimedSpawnDef // disables FragOnEnd in favor of info specified below
                 {
                     Enable = true, // Enables TimedSpawns mechanism
-                    Interval = 24, // Time between spawning fragments, in ticks, 0 means every tick, 1 means every other
-                    StartTime = 60, // Time delay to start spawning fragments, in ticks, of total projectile life
+                    Interval = 0, // Time between spawning fragments, in ticks, 0 means every tick, 1 means every other
+                    StartTime = 1, // Time delay to start spawning fragments, in ticks, of total projectile life
                     MaxSpawns = 6000, // Max number of fragment children to spawn
                     Proximity = 0, // Starting distance from target bounding sphere to start spawning fragments, 0 disables this feature.  No spawning outside this distance
-                    ParentDies = false, // Parent dies once after it spawns its last child.
+                    ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = false, // Start fragment direction pointing at Target
                     PointType = Lead, // Point accuracy, Direct (straight forward), Lead (always fire), Predict (only fire if it can hit)
                     DirectAimCone = 0f, //Aim cone used for Direct fire, in degrees
@@ -498,14 +498,23 @@ namespace Scripts
             Pattern = new PatternDef
             {
                 Patterns = new[] { // If enabled, set of multiple ammos to fire in order instead of the main ammo.
-                  "",
+                  "SubterraneanSunStage2SuccParticleInvis", 
+                    "SubterraneanSunStage2SuccParticleInvis",
+                    "SubterraneanSunStage2SuccParticleInvis",
+                    "SubterraneanSunStage2SuccParticleInvis",
+                    "SubterraneanSunStage2SuccParticleInvis",
+                    "SubterraneanSunStage2SuccParticleInvis",
+                    "SubterraneanSunStage2SuccParticleInvis",
+                    "SubterraneanSunStage2SuccParticleInvis",
+                    "SubterraneanSunStage2SuccParticleInvis",
+                    "SubterraneanSunStage2EWARPattern",
                 },
                 Mode = Fragment, // Select when to activate this pattern, options: Never, Weapon, Fragment, Both 
                 TriggerChance = 1f, // This is %
                 Random = false, // This randomizes the number spawned at once, NOT the list order.
                 RandomMin = 1,
                 RandomMax = 1,
-                SkipParent = false, // Skip the Ammo itself, in the list
+                SkipParent = true, // Skip the Ammo itself, in the list
                 PatternSteps = 1, // Number of Ammos activated per round, will progress in order and loop. Ignored if Random = true.
             },
             DamageScales = new DamageScaleDef
@@ -601,8 +610,8 @@ namespace Scripts
                     MinArmingTime = 0, // In ticks, before the Ammo is allowed to explode, detonate or similar; This affects shrapnel spawning.
                     NoVisuals = false,
                     NoSound = false,
-                    ParticleScale = 20,
-                    CustomParticle = "EXPLODETHESUN1", // Particle SubtypeID, from your Particle SBC
+                    ParticleScale = 1,
+                    CustomParticle = "", // Particle SubtypeID, from your Particle SBC
                     CustomSound = "rocklaunch", // SubtypeID from your Audio SBC, not a filename
                     Shape = Round, // Round or Diamond shape.  Diamond is more performance friendly.
                 },
@@ -1202,7 +1211,7 @@ namespace Scripts
             HybridRound = true, // Use both a physical ammo magazine and energy per shot.
             EnergyCost = 0.1f, // Scaler for energy per shot (EnergyCost * BaseDamage * (RateOfFire / 3600) * BarrelsPerShot * TrajectilesPerBarrel). Uses EffectStrength instead of BaseDamage if EWAR.
             BaseDamage = 1f, // Direct damage; one steel plate is worth 100.
-            Mass = 0f, // In kilograms; how much force the impact will apply to the target.
+            Mass = 100f, // In kilograms; how much force the impact will apply to the target.
             Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 0f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself. 
@@ -1292,7 +1301,7 @@ namespace Scripts
                 },
                 Shields = new ShieldDef
                 {
-                    Modifier = 1f, // Multiplier for damage against shields.
+                    Modifier = 0.1f, // Multiplier for damage against shields.
                     Type = Default, // Damage vs healing against shields; Default, Heal
                     BypassModifier = -1f, // If greater than zero, the percentage of damage that will penetrate the shield.
                 },
@@ -1341,26 +1350,26 @@ namespace Scripts
                 },
                 EndOfLife = new EndOfLifeDef
                 {
-                    Enable = false,
-                    Radius = 100f, // Radius of AOE effect, in meters.
-                    Damage = 5000000f,
-                    Depth = 100f, // Max depth of AOE effect, in meters. 0=disabled, and AOE effect will reach to a depth of the radius value
+                    Enable = true,
+                    Radius = 3f, // Radius of AOE effect, in meters.
+                    Damage = 5000f,
+                    Depth = 3f, // Max depth of AOE effect, in meters. 0=disabled, and AOE effect will reach to a depth of the radius value
                     MaxAbsorb = 0f, // Soft cutoff for damage, except for pooled falloff.  If pooled falloff, limits max damage per block.
-                    Falloff = Pooled, //.NoFalloff applies the same damage to all blocks in radius
+                    Falloff = Squeeze, //.NoFalloff applies the same damage to all blocks in radius
                     //.Linear drops evenly by distance from center out to max radius
                     //.Curve drops off damage sharply as it approaches the max radius
                     //.InvCurve drops off sharply from the middle and tapers to max radius
                     //.Squeeze does little damage to the middle, but rapidly increases damage toward max radius
                     //.Pooled damage behaves in a pooled manner that once exhausted damage ceases.
                     //.Exponential drops off exponentially.  Does not scale to max radius
-                    ArmOnlyOnHit = false, // Detonation only is available, After it hits something, when this is true. IE, if shot down, it won't explode.
+                    ArmOnlyOnHit = true, // Detonation only is available, After it hits something, when this is true. IE, if shot down, it won't explode.
                     MinArmingTime = 0, // In ticks, before the Ammo is allowed to explode, detonate or similar; This affects shrapnel spawning.
                     NoVisuals = false,
                     NoSound = false,
-                    ParticleScale = 20,
-                    CustomParticle = "fuckoff", // Particle SubtypeID, from your Particle SBC
+                    ParticleScale = 1,
+                    CustomParticle = "", // Particle SubtypeID, from your Particle SBC
                     CustomSound = "", // SubtypeID from your Audio SBC, not a filename
-                    Shape = Round, // Round or Diamond shape.  Diamond is more performance friendly.
+                    Shape = Diamond, // Round or Diamond shape.  Diamond is more performance friendly.
                 },
             },
             Ewar = new EwarDef
@@ -1579,7 +1588,7 @@ namespace Scripts
             EnergyCost = 0.1f, // Scaler for energy per shot (EnergyCost * BaseDamage * (RateOfFire / 3600) * BarrelsPerShot * TrajectilesPerBarrel). Uses EffectStrength instead of BaseDamage if EWAR.
             BaseDamage = 1f, // Direct damage; one steel plate is worth 100.
             Mass = 0f, // In kilograms; how much force the impact will apply to the target.
-            Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
+            Health = 50, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 0f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself. 
                                //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
@@ -1592,8 +1601,8 @@ namespace Scripts
             HeatModifier = -1f, // Allows this ammo to modify the amount of heat the weapon produces per shot.
             Shape = new ShapeDef // Defines the collision shape of the projectile, defaults to LineShape and uses the visual Line Length if set to 0.
             {
-                Shape = SphereShape, // LineShape or SphereShape. Do not use SphereShape for fast moving projectiles if you care about precision.
-                Diameter = 11, // Diameter is minimum length of LineShape or minimum diameter of SphereShape.
+                Shape = LineShape, // LineShape or SphereShape. Do not use SphereShape for fast moving projectiles if you care about precision.
+                Diameter = 1, // Diameter is minimum length of LineShape or minimum diameter of SphereShape.
             },
             ObjectsHit = new ObjectsHitDef
             {
@@ -1615,11 +1624,11 @@ namespace Scripts
                 TimedSpawns = new TimedSpawnDef // disables FragOnEnd in favor of info specified below
                 {
                     Enable = true, // Enables TimedSpawns mechanism
-                    Interval = 0, // Time between spawning fragments, in ticks, 0 means every tick, 1 means every other
+                    Interval = 1, // Time between spawning fragments, in ticks, 0 means every tick, 1 means every other
                     StartTime = 60, // Time delay to start spawning fragments, in ticks, of total projectile life
                     MaxSpawns = 60, // Max number of fragment children to spawn
                     Proximity = 0, // Starting distance from target bounding sphere to start spawning fragments, 0 disables this feature.  No spawning outside this distance
-                    ParentDies = false, // Parent dies once after it spawns its last child.
+                    ParentDies = true, // Parent dies once after it spawns its last child.
                     PointAtTarget = false, // Start fragment direction pointing at Target
                     PointType = Lead, // Point accuracy, Direct (straight forward), Lead (always fire), Predict (only fire if it can hit)
                     DirectAimCone = 360f, //Aim cone used for Direct fire, in degrees
@@ -1644,7 +1653,7 @@ namespace Scripts
             {
                 MaxIntegrity = 0f, // Blocks with integrity higher than this value will be immune to damage from this projectile; 0 = disabled.
                 DamageVoxels = false, // Whether to damage voxels.
-                SelfDamage = false, // Whether to damage the weapon's own grid.
+                SelfDamage = true, // Whether to damage the weapon's own grid.
                 HealthHitModifier = 0.5, // How much Health to subtract from another projectile on hit; defaults to 1 if zero or less.
                 VoxelHitModifier = 1, // Voxel damage multiplier; defaults to 1 if zero or less.
                 Characters = -1f, // Character damage multiplier; defaults to 1 if zero or less.
@@ -1717,10 +1726,10 @@ namespace Scripts
                 },
                 EndOfLife = new EndOfLifeDef
                 {
-                    Enable = false,
-                    Radius = 100f, // Radius of AOE effect, in meters.
-                    Damage = 5000000f,
-                    Depth = 100f, // Max depth of AOE effect, in meters. 0=disabled, and AOE effect will reach to a depth of the radius value
+                    Enable = true,
+                    Radius = 1f, // Radius of AOE effect, in meters.
+                    Damage = 50f,
+                    Depth = 1f, // Max depth of AOE effect, in meters. 0=disabled, and AOE effect will reach to a depth of the radius value
                     MaxAbsorb = 0f, // Soft cutoff for damage, except for pooled falloff.  If pooled falloff, limits max damage per block.
                     Falloff = Pooled, //.NoFalloff applies the same damage to all blocks in radius
                     //.Linear drops evenly by distance from center out to max radius
@@ -1736,17 +1745,17 @@ namespace Scripts
                     ParticleScale = 20,
                     CustomParticle = "fuckoff", // Particle SubtypeID, from your Particle SBC
                     CustomSound = "rocklaunch", // SubtypeID from your Audio SBC, not a filename
-                    Shape = Round, // Round or Diamond shape.  Diamond is more performance friendly.
+                    Shape = Diamond, // Round or Diamond shape.  Diamond is more performance friendly.
                 },
             },
             Ewar = new EwarDef
             {
                 Enable = false, // Enables EWAR effects AND DISABLES BASE DAMAGE AND AOE DAMAGE!!
-                Type = Pull, // EnergySink, Emp, Offense, Nav, Dot, AntiSmart, JumpNull, Anchor, Tractor, Pull, Push, 
-                Mode = Field, // Effect , Field
-                Strength = 100,
-                Radius = 1000f, // Meters
-                Duration = 60, // In Ticks
+                Type = EnergySink, // EnergySink, Emp, Offense, Nav, Dot, AntiSmart, JumpNull, Anchor, Tractor, Pull, Push, 
+                Mode = Effect, // Effect , Field
+                Strength = 0,
+                Radius = 0, // Meters
+                Duration = 0, // In Ticks
                 StackDuration = false, // Combined Durations
                 Depletable = false,
                 MaxStacks = 1, // Max Debuffs at once
@@ -1763,8 +1772,8 @@ namespace Scripts
                 },
                 Field = new FieldDef
                 {
-                    Interval = 6, // Time between each pulse, in game ticks (60 == 1 second), starts at 0 (59 == tick 60).
-                    PulseChance = 100, // Chance from 0 - 100 that an entity in the field will be hit by any given pulse.
+                    Interval = 0, // Time between each pulse, in game ticks (60 == 1 second), starts at 0 (59 == tick 60).
+                    PulseChance = 0, // Chance from 0 - 100 that an entity in the field will be hit by any given pulse.
                     GrowTime = 0, // How many ticks it should take the field to grow to full size.
                     HideModel = false, // Hide the default bubble, or other model if specified.
                     ShowParticle = false, // Show Block damage effect.
@@ -1793,7 +1802,7 @@ namespace Scripts
                 TargetLossDegree = 0f, // Degrees, Is pointed forward
                 TargetLossTime = 0, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..).
                 MaxLifeTime = 3600, // 0 is disabled, Measured in game ticks (6 = 100ms, 60 = 1 seconds, etc..). time begins at 0 and time must EXCEED this value to trigger "time > maxValue". Please have a value for this, It stops Bad things.
-                AccelPerSec = 0, // Meters Per Second. This is the spawning Speed of the Projectile, and used by turning.
+                AccelPerSec = 1, // Meters Per Second. This is the spawning Speed of the Projectile, and used by turning.
                 DesiredSpeed = 0.00000001f, // voxel phasing if you go above 5100
                 MaxTrajectory = 1000, // Max Distance the projectile or beam can Travel.
                 DeaccelTime = 0, // 0 is disabled, a value causes the projectile to come to rest overtime, (Measured in game ticks, 60 = 1 second)
@@ -1956,8 +1965,8 @@ namespace Scripts
             HybridRound = true, // Use both a physical ammo magazine and energy per shot.
             EnergyCost = 0.1f, // Scaler for energy per shot (EnergyCost * BaseDamage * (RateOfFire / 3600) * BarrelsPerShot * TrajectilesPerBarrel). Uses EffectStrength instead of BaseDamage if EWAR.
             BaseDamage = 1f, // Direct damage; one steel plate is worth 100.
-            Mass = 0f, // In kilograms; how much force the impact will apply to the target.
-            Health = 0, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
+            Mass = 1f, // In kilograms; how much force the impact will apply to the target.
+            Health = 50, // How much damage the projectile can take from other projectiles (base of 1 per hit) before dying; 0 disables this and makes the projectile untargetable.
             BackKickForce = 0f, // Recoil. This is applied to the Parent Grid.
             DecayPerShot = 0f, // Damage to the firing weapon itself. 
                                //float.MaxValue will drop the weapon to the first build state and destroy all components used for construction
@@ -1970,8 +1979,8 @@ namespace Scripts
             HeatModifier = -1f, // Allows this ammo to modify the amount of heat the weapon produces per shot.
             Shape = new ShapeDef // Defines the collision shape of the projectile, defaults to LineShape and uses the visual Line Length if set to 0.
             {
-                Shape = SphereShape, // LineShape or SphereShape. Do not use SphereShape for fast moving projectiles if you care about precision.
-                Diameter = 11, // Diameter is minimum length of LineShape or minimum diameter of SphereShape.
+                Shape = LineShape, // LineShape or SphereShape. Do not use SphereShape for fast moving projectiles if you care about precision.
+                Diameter = 1, // Diameter is minimum length of LineShape or minimum diameter of SphereShape.
             },
             ObjectsHit = new ObjectsHitDef
             {
@@ -1989,7 +1998,7 @@ namespace Scripts
                 Radial = 0f, // Determines starting angle for Degrees of spread above.  IE, 0 degrees and 90 radial goes perpendicular to travel path
                 MaxChildren = 0, // number of maximum branches for fragments from the roots point of view, 0 is unlimited
                 IgnoreArming = false, // If true, ignore ArmOnHit or MinArmingTime in EndOfLife definitions
-                AdvOffset = Vector(x: 0, y: 0, z: 0), // advanced offsets the fragment by xyz coordinates relative to parent, value is read from fragment ammo type.
+                AdvOffset = Vector(x: 0, y: 1, z: 0), // advanced offsets the fragment by xyz coordinates relative to parent, value is read from fragment ammo type.
                 TimedSpawns = new TimedSpawnDef // disables FragOnEnd in favor of info specified below
                 {
                     Enable = false, // Enables TimedSpawns mechanism
@@ -2022,7 +2031,7 @@ namespace Scripts
             {
                 MaxIntegrity = 0f, // Blocks with integrity higher than this value will be immune to damage from this projectile; 0 = disabled.
                 DamageVoxels = false, // Whether to damage voxels.
-                SelfDamage = false, // Whether to damage the weapon's own grid.
+                SelfDamage = true, // Whether to damage the weapon's own grid.
                 HealthHitModifier = 0.5, // How much Health to subtract from another projectile on hit; defaults to 1 if zero or less.
                 VoxelHitModifier = 1, // Voxel damage multiplier; defaults to 1 if zero or less.
                 Characters = -1f, // Character damage multiplier; defaults to 1 if zero or less.
@@ -2097,7 +2106,7 @@ namespace Scripts
                 {
                     Enable = false,
                     Radius = 100f, // Radius of AOE effect, in meters.
-                    Damage = 5000000f,
+                    Damage = 50f,
                     Depth = 100f, // Max depth of AOE effect, in meters. 0=disabled, and AOE effect will reach to a depth of the radius value
                     MaxAbsorb = 0f, // Soft cutoff for damage, except for pooled falloff.  If pooled falloff, limits max damage per block.
                     Falloff = Pooled, //.NoFalloff applies the same damage to all blocks in radius
@@ -2122,12 +2131,12 @@ namespace Scripts
                 Enable = true, // Enables EWAR effects AND DISABLES BASE DAMAGE AND AOE DAMAGE!!
                 Type = Pull, // EnergySink, Emp, Offense, Nav, Dot, AntiSmart, JumpNull, Anchor, Tractor, Pull, Push, 
                 Mode = Field, // Effect , Field
-                Strength = 5f,
+                Strength = 1.25f,
                 Radius = 2000f, // Meters
                 Duration = 60, // In Ticks
                 StackDuration = false, // Combined Durations
-                Depletable = false,
-                MaxStacks = 1, // Max Debuffs at once
+                Depletable = true,
+                MaxStacks = 5, // Max Debuffs at once
                 NoHitParticle = false,
 
                 Force = new PushPullDef
@@ -2142,11 +2151,11 @@ namespace Scripts
                 Field = new FieldDef
                 {
                     Interval = 6, // Time between each pulse, in game ticks (60 == 1 second), starts at 0 (59 == tick 60).
-                    PulseChance = 100, // Chance from 0 - 100 that an entity in the field will be hit by any given pulse.
-                    GrowTime = 0, // How many ticks it should take the field to grow to full size.
+                    PulseChance = 90, // Chance from 0 - 100 that an entity in the field will be hit by any given pulse.
+                    GrowTime = 59, // How many ticks it should take the field to grow to full size.
                     HideModel = false, // Hide the default bubble, or other model if specified.
                     ShowParticle = false, // Show Block damage effect.
-                    TriggerRange = 0f, //range at which fields are triggered
+                    TriggerRange = 0, //range at which fields are triggered
                     Particle = new ParticleDef // Particle effect to generate at the field's position.
                     {
                         Name = "", // SubtypeId of field particle effect.
